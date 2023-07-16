@@ -1,0 +1,90 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class MapsAndLocations {
+
+    public static void main(String[] args) {
+        // Create a list of locations
+        List<Location> locations = new ArrayList<>();
+        locations.add(new Location("Paris", 48.85341, 2.3488));
+        locations.add(new Location("London", 51.5074, -0.1271));
+        locations.add(New York City, 40.7128, -74.0059));
+
+        // Create a map of locations to their names
+        Map<String, Location> locationMap = new HashMap<>();
+        for (Location location : locations) {
+            locationMap.put(location.getName(), location);
+        }
+
+        // Create a scanner to read user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter a location name
+        System.out.println("Enter a location name: ");
+        String locationName = scanner.nextLine();
+
+        // Get the location from the map
+        Location location = locationMap (locationName);
+
+        // Print the location's name, latitude, and longitude
+        System.out.println("Location: " + location.getName() + ", Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+
+        // Prompt the user to enter a distance in kilometers
+        System.out.println("Enter a distance in kilometers: ");
+        int distance = scanner.nextInt();
+
+        // Find all locations within the given distance
+        List<Location> nearbyLocations = findNearbyLocations(locations, location, distance);
+
+        // Print the list of nearby locations
+        for (Location nearbyLocation : nearbyLocations) {
+            System.out.println(nearbyLocation.getName());
+        }
+    }
+
+    // Find all locations within a given distance of a given location
+    public static List<Location> findNearbyLocations(List<Location> locations, Location location, int distance) {
+        List<Location> nearbyLocations = new ArrayList<>();
+        for (Location otherLocation : locations) {
+            if (getDistanceBetweenLocations(location, otherLocation) <= distance) {
+                nearbyLocations.add(otherLocation);
+            }
+        }
+        return nearbyLocations;
+    }
+
+    // Get the distance between two locations in kilometers
+    public static double getDistanceBetweenLocations(Location location1, Location location2) {
+        double latitudeDifference = location1.getLatitude() - location2.getLatitude();
+        double longitudeDifference = location1.getLongitude() - location2.getLongitude();
+        double radiusOfTheEarth = 6371.0;
+        double distance = Math.sqrt(latitudeDifference * latitudeDifference + longitudeDifference * longitudeDifference) * radiusOfTheEarth;
+        return distance;
+    }
+}
+
+class Location {
+
+    private String name;
+    private double latitude;
+    private double longitude;
+
+    public Location(String name, double latitude, double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+}
